@@ -1,0 +1,42 @@
+def is_safe(board, row, col, n):
+    # Check the row on the left side
+    for i in range(col):
+        if board[row][i]:
+            return False
+
+    # Check upper diagonal on the left side
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j]:
+            return False
+
+    # Check lower diagonal on the left side
+    for i, j in zip(range(row, n, 1), range(col, -1, -1)):
+        if board[i][j]:
+            return False
+
+    return True
+
+def solve_nqueens(n):
+    board = [[0 for _ in range(n)] for _ in range(n)]
+
+    def solve_util(board, col):
+        if col >= n:
+            return True
+
+        for i in range(n):
+            if is_safe(board, i, col, n):
+                board[i][col] = 1
+                if solve_util(board, col + 1):
+                    return True
+                board[i][col] = 0  # Backtrack
+
+        return False
+
+    if not solve_util(board, 0):
+        print("No solution exists.")
+    else:
+        for row in board:
+            print(row)
+
+n = 8  # Change 'n' to the desired board size
+solve_nqueens(n)
