@@ -1,0 +1,70 @@
+#BFS Algorithm
+
+from collections import defaultdict
+
+def bfs_recursive(graph, queue):
+    if not queue:
+        return
+
+    node = queue.pop(0)
+    print(node, end=" ")
+
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            visited.add(neighbor)
+            queue.append(neighbor)
+
+    bfs_recursive(graph, queue)
+
+if __name__ == "__main__":
+    graph = defaultdict(list)
+    visited = set()
+
+    while True:
+        edge = input("Enter an edge (e.g., 'u v') or leave blank to finish: ")
+        if not edge:
+            break
+        u, v = map(str, edge.split())
+        graph[u].append(v)
+        graph[v].append(u)  # Assuming an undirected graph
+
+    start_node = input("Enter the starting node: ")
+    visited.add(start_node)
+    bfs_recursive(graph, [start_node])
+
+    #DFS Algorithm
+
+    class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, u, v):
+        if u in self.graph:
+            self.graph[u].append(v)
+        else:
+            self.graph[u] = [v]
+
+def dfs(graph, start_node):
+    visited = set()
+
+    def dfs_recursive(node):
+        if node not in visited:
+            print(node, end=" ")
+            visited.add(node)
+            for neighbor in graph.get(node, []):
+                dfs_recursive(neighbor)
+
+    dfs_recursive(start_node)
+
+if __name__ == "__main__":
+    graph = Graph()
+
+    while True:
+        edge = input("Enter an edge (e.g., 'u v') or leave blank to finish: ")
+        if not edge:
+            break
+        u, v = map(str, edge.split())
+        graph.add_edge(u, v)
+
+    start_node = input("Enter the starting node: ")
+    dfs(graph.graph, start_node)
